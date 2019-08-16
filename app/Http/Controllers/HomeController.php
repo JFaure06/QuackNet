@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Quack;
 use Illuminate\Http\Request;
+use Auth;
 
 class HomeController extends Controller
 {
@@ -13,7 +15,8 @@ class HomeController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware('auth')->only(['home']);
+        $this->middleware('guest')->only(['welcome']);
     }
 
     /**
@@ -21,8 +24,16 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
+
     public function index()
     {
-        return view('home');
+        return view('welcome');
+    }
+
+    public function connected()
+    {
+        $quacks = Quack::all();
+
+        return view('home', ['quacks' => $quacks]);
     }
 }

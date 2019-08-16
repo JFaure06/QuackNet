@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Quack;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class QuackController extends Controller
 {
@@ -14,7 +15,9 @@ class QuackController extends Controller
      */
     public function index()
     {
-        return view('quack.index');
+        $quacks = Quack::with('user')->get();
+
+        return view('home', ['quacks' => $quacks]);
     }
 
     /**
@@ -24,62 +27,96 @@ class QuackController extends Controller
      */
     public function create()
     {
-        return view('quack.create');
+        return view('create');
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
-        //
+        //dd($request);
+
+        $request->validate([
+            'message' => 'required|min:2',
+            'photo' => 'image|nullable',
+            'tag' => 'nullable',
+        ]);
+
+
+        //$quack = Quack::create($request->input('message'));
+
+        //Quack::create($request->all());
+
+        $user = Auth::user();
+        $quack = new Quack();
+
+        $quack->user_id = $user->id;
+        $quack->message = $request->input('message');
+        $quack->save();
+        return redirect()->route('home');
+
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Quack  $quack
+     * @param \App\Quack $quack
      * @return \Illuminate\Http\Response
      */
     public function show(Quack $quack)
     {
-        return view('quack.show');
+        //
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Quack  $quack
+     * @param \App\Quack $quack
      * @return \Illuminate\Http\Response
      */
     public function edit(Quack $quack)
     {
-        return view('quack.edit');
+        return view('quacks.edit_quack');
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Quack  $quack
+     * @param \Illuminate\Http\Request $request
+     * @param \App\Quack $quack
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Quack $quack)
     {
-        return view('quack.update');
+        $request->validate([
+            'message' => 'required|min:2',
+            'photo' => 'nullable',
+            'tag' => 'nullable',
+        ]);
+
+        $user = Auth::user();
+        $quack->user_id = $user->id;
+
+        $quack->message = $request->input('message');
+        $quack->save();
+
+        return redirect()->route('home');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Quack  $quack
+     * @param \App\Quack $quack
      * @return \Illuminate\Http\Response
+     * @throws \Exception
      */
     public function destroy(Quack $quack)
     {
-        return view('quack.destroy');
+        $quack->delete();
+        return redirect()->route('home');
     }
 }

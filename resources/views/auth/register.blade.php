@@ -15,9 +15,9 @@
                             <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('FirstName') }}</label>
 
                             <div class="col-md-6">
-                                <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('firstname') }}" required autocomplete="name" autofocus>
+                                <input id="name" type="text" class="form-control @error('firstname') is-invalid @enderror" name="firstname" value="{{ old('firstname') }}" required autocomplete="firstname" autofocus>
 
-                                @error('name')
+                                @error('firstname')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
@@ -29,9 +29,9 @@
                             <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('LastName') }}</label>
 
                             <div class="col-md-6">
-                                <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('lastname') }}" required autocomplete="name" autofocus>
+                                <input id="name" type="text" class="form-control @error('lastname') is-invalid @enderror" name="lastname" value="{{ old('lastname') }}" required autocomplete="lastname" autofocus>
 
-                                @error('name')
+                                @error('lastname')
                                 <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
@@ -43,9 +43,9 @@
                             <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('DuckName') }}</label>
 
                             <div class="col-md-6">
-                                <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('duckname') }}" required autocomplete="name" autofocus>
+                                <input id="name" type="text" class="form-control @error('duckname') is-invalid @enderror" name="duckname" value="{{ old('duckname') }}" required autocomplete="duckname" autofocus>
 
-                                @error('name')
+                                @error('duckname')
                                 <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>

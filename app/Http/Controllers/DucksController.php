@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\ducks;
+use Illuminate\Foundation\Auth\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\ValidationException;
 
 class DucksController extends Controller
 {
@@ -14,7 +17,9 @@ class DucksController extends Controller
      */
     public function index()
     {
-        //
+
+        $user = Auth::user();
+        return view('ducks.profile', ['user' => $user]);
     }
 
     /**
@@ -30,7 +35,7 @@ class DucksController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -41,10 +46,10 @@ class DucksController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\ducks  $ducks
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function show(ducks $ducks)
+    public function show($id)
     {
         //
     }
@@ -52,34 +57,58 @@ class DucksController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\ducks  $ducks
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(ducks $ducks)
+    public function edit()
     {
-        //
+        $user = Auth::user();
+        return view('ducks.edit', ['user' => $user]);
+    }
+
+    public function editPassword()
+    {
+
+        return view('ducks.editPassword');
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\ducks  $ducks
+     * @param \Illuminate\Http\Request $request
+     * @param User $user
      * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Validation\ValidationException
      */
-    public function update(Request $request, ducks $ducks)
+    public function update(Request $request)
     {
-        //
+        $request->validate([
+            'firstname' => 'required',
+            'lastname' => 'required',
+            'password' => 'required|min:8|password'
+        ]);
+
+        $user = Auth::user();
+        $user->firstname = $request->input('firstname');
+        $user->lastname = $request->input('lastname');
+        $user->password = Hash::make($request->input('password'));
+        $user->save();
+
+        return redirect()->route('profile');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\ducks  $ducks
+     * @param User $user
      * @return \Illuminate\Http\Response
+     * @throws \Exception
      */
-    public function destroy(ducks $ducks)
+    public function destroy()
     {
-        //
+        /** @var TYPE_NAME $user */
+        $user = Auth::user();
+        $user->delete();
+        return redirect()->route('/');
     }
 }
