@@ -16,7 +16,7 @@
             <li class="list-group-item">Email : {{ Auth::user()->email }}</li>
         </ul>
         <a href="{{route('modify_user')}}" class="btn btn-primary">modify</a>
-        <a href="{{route('delete_user')}}" class="btn btn-danger">delete</a>
+        <a href="{{route('delete_user', $user)}}" class="btn btn-danger">delete</a>
     </div>
 
 

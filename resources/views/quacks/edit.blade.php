@@ -3,13 +3,25 @@
 @section('content')
 
     <div class="container">
+
+        @if ($errors->any())
+            <div class="alert alert-danger">
+                <strong>Whoops!</strong> There were some problems with your input.<br><br>
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="card">
                     <div class="card-header">{{ Auth::user()->duckname }}</div>
 
                     <div class="card-body">
-                        <form method="POST" action="{{ route('update_quack') }}">
+                        <form method="POST" action="{{ route('quacks.update', $quack) }}">
                             @csrf
                             @method('PUT')
 

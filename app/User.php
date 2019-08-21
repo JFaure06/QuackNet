@@ -50,4 +50,8 @@ class User extends Authenticatable
     public function quacks(){
         return $this->hasMany('App\Quack');
     }
+
+    public function comment(){
+        return$this->hasMany('App\Comment');
+    }
 }

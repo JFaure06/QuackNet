@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateQuacksTable extends Migration
+class CreateCommentsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,16 +13,15 @@ class CreateQuacksTable extends Migration
      */
     public function up()
     {
-        Schema::create('quacks', function (Blueprint $table) {
+        Schema::create('comments', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->timestamps();
+            $table->text('comment');
+            $table->unsignedBigInteger('quack_id');
             $table->unsignedBigInteger('user_id');
-            $table->foreign('user_id')
-                ->references('id')->on('users')
-                ->onDelete('cascade');
-            $table->text('message')->nullable();
-            $table->char('picture')->nullable();
-            $table->string('tags')->nullable();
+
+            $table->foreign('quack_id')->references('id')->on('quacks');
+            $table->foreign('user_id')->references('id')->on('users');
         });
     }
 
@@ -33,6 +32,6 @@ class CreateQuacksTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('quacks');
+        Schema::dropIfExists('comments');
     }
 }

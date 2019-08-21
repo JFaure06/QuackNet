@@ -20,21 +20,25 @@
 Auth::routes();
 
 // page d'acceuil
-Route::get('/home', 'HomeController@connected'); // page après connection
-Route::get('/', 'HomeController@index')->name('home'); // page hors connection
+Route::get('/home', 'HomeController@connected')->name('home'); // page après connection
+Route::get('/', 'HomeController@index')->name('welcome'); // page hors connection
 
-// route des quacks
+// Quacks
 //Route::resource('quacks', 'QuackController');
-route::get('/quacks/create', 'QuackController@create')->name('quack.create');
-route::post('/quacks', 'QuackController@store')->name('quack.store');
-route::get('/quacks/','QuackController@edit')->name('quack.edit');
-route::put('/quacks/','QuackController@update')->name('quack.update');
-route::delete('/quacks/','QuackController@destroy')->name('quack.delete');
+route::get('/quacks/create', 'QuackController@create')->name('quacks.create');
+route::post('/quacks', 'QuackController@store')->name('quacks.store');
+route::get('quacks/{quack}', 'QuackController@show')->name('quacks.show');
+route::get('/quacks/{quack}/edit','QuackController@edit')->name('quacks.edit');
+route::put('/quacks/{quack}','QuackController@update')->name('quacks.update');
+route::delete('/quacks/{quack}','QuackController@destroy')->name('quacks.delete');
 
-// route user
+// User
 //route::resource('ducks', 'DucksController');
 route::get('/profile', 'DucksController@index')->name('profile');
 route::get('/settings/profile', 'DucksController@edit')->name('modify_user');
 route::put('/setting/profile', 'DucksController@update')->name('update_user');
 route::delete('/profile', 'DucksController@destroy')->name('delete_user');
 
+// Comment
+route::post('comments', 'CommentController@store')->name('comments.store');
+route::delete('comments/{comment}', 'CommentController@destroy')->name('comments.delete');

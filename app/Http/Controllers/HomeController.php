@@ -15,8 +15,8 @@ class HomeController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth')->only(['home']);
-        $this->middleware('guest')->only(['welcome']);
+        $this->middleware('auth')->only('connected');
+        $this->middleware('guest')->only('index');
     }
 
     /**
