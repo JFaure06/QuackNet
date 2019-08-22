@@ -2,16 +2,24 @@
 
 @section('title')
 
-   Detail Quack
+    Detail Quack
 
 @endsection
 
 @section('content')
 
     <div class="container">
-<!------------------------------------------------------------------------- add a comment ---------------------------------------------------------------------------------------------------->
+        <!------------------------------------------------------------------------- add a comment ---------------------------------------------------------------------------------------------------->
         @if(Auth::check())
-
+            @if ($errors->any())
+                <div class="alert alert-danger">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
             <form action="{{ route('comments.store', $quack) }}" method="POST">
                 @csrf
 
@@ -21,7 +29,7 @@
                 <input type="hidden" id="user_id" name="user_id" value="{{ Auth::user()->id }}">
                 <button class="btn btn-info align-content-center" type="submit">add comment</button>
             </form>
-<!------------------------------------------------------------------------- display the quack ------------------------------------------------------------------------------------------------>
+            <!------------------------------------------------------------------------- display the quack ------------------------------------------------------------------------------------------------>
 
             <div class="row justify-content-center mt-4">
                 <div class="col-md-8">
@@ -41,13 +49,13 @@
                             </div>
                             <div class="card-footer">
                                 <h6>Comments</h6>
-<!------------------------------------------------------------------------- display all comments --------------------------------------------------------------------------------------------->
+                                <!------------------------------------------------------------------------- display all comments --------------------------------------------------------------------------------------------->
                                 @foreach ($quack->comments as $comment)
 
                                     <div class="card mt-3">
                                         <div class="card-header">
 
-                                            @if($comment->user->id == Auth::user()->id || $quack->user->id == Auth::user()->id  )
+                                            @if($comment->user->id == Auth::user()->id || $quack->user->id == Auth::user()->id || Gate::allows('delete-quack', $quack))
 
                                                 <form action="{{ route('comments.delete', $quack) }}"
                                                       method="POST">

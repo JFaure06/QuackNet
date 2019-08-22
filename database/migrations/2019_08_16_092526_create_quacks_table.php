@@ -15,10 +15,10 @@ class CreateQuacksTable extends Migration
     {
         Schema::create('quacks', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->unsignedBigInteger('user_id');
             $table->text('message')->nullable();
             $table->string('picture')->nullable();
             $table->string('tags')->nullable();
-            $table->unsignedBigInteger('user_id');
             $table->timestamps();
 
             $table->foreign('user_id')

@@ -30,6 +30,7 @@
                                 </ul>
                             </div>
                         @endif
+                        @if(Gate::allows('update-quack', $quack)){
                         <form method="POST" action="{{ route('quacks.update', $quack) }}">
                             @csrf
                             @method('PUT')
@@ -52,6 +53,8 @@
                                 </div>
                             </div>
                         </form>
+                        }
+                        @endif
                     </div>
                 </div>
             </div>

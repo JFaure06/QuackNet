@@ -56,10 +56,4 @@ class User extends Authenticatable
     {
         return $this->hasMany('App\Comment');
     }
-
-    // un duck appartient à un role
-    public function role()
-    {
-        return $this->belongsTo('App\Role');
-    }
 }
