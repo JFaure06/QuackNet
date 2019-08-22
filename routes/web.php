@@ -11,34 +11,26 @@
 |
 */
 
-// page d'accueil non conncetée
-//Route::get('/', function () {
-  //  return view('welcome');
-//});
 
-//
+// Authentication
 Auth::routes();
 
 // page d'acceuil
 Route::get('/home', 'HomeController@connected')->name('home'); // page après connection
 Route::get('/', 'HomeController@index')->name('welcome'); // page hors connection
 
+// Users
+Route::get('/users/{user}', 'UserController@show')->name('ducks.show');
+
+// Accounts
+route::get('/accounts/profile', 'AccountController@profile')->name('ducks.profile');
+route::get('/accounts/editprofile','AccountController@edit')->name('ducks.edit');
+route::put('/accounts/updateprofile','AccountController@update')->name('ducks.update');
+route::delete('/accounts/','AccountController@destroy')->name('ducks.delete');
+
 // Quacks
-//Route::resource('quacks', 'QuackController');
-route::get('/quacks/create', 'QuackController@create')->name('quacks.create');
-route::post('/quacks', 'QuackController@store')->name('quacks.store');
-route::get('quacks/{quack}', 'QuackController@show')->name('quacks.show');
-route::get('/quacks/{quack}/edit','QuackController@edit')->name('quacks.edit');
-route::put('/quacks/{quack}','QuackController@update')->name('quacks.update');
-route::delete('/quacks/{quack}','QuackController@destroy')->name('quacks.delete');
+Route::resource('quacks', 'QuackController')->except('index');
 
-// User
-//route::resource('ducks', 'DucksController');
-route::get('/profile', 'DucksController@index')->name('profile');
-route::get('/settings/profile', 'DucksController@edit')->name('modify_user');
-route::put('/setting/profile', 'DucksController@update')->name('update_user');
-route::delete('/profile', 'DucksController@destroy')->name('delete_user');
-
-// Comment
-route::post('comments', 'CommentController@store')->name('comments.store');
-route::delete('comments/{comment}', 'CommentController@destroy')->name('comments.delete');
+// Comments
+route::post('/quacks/{quack}/comments', 'CommentController@store')->name('comments.store');
+route::delete('/quacks/{quack}/comments/{comment}', 'CommentController@destroy')->name('comments.delete');

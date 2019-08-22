@@ -1,5 +1,12 @@
 @extends('layouts.app')
 
+@section('title')
+
+    My account
+
+@endsection
+
+
 @section('content')
 
 
@@ -15,8 +22,7 @@
             <li class="list-group-item">Duckname : {{ Auth::user()->duckname }}</li>
             <li class="list-group-item">Email : {{ Auth::user()->email }}</li>
         </ul>
-        <a href="{{route('modify_user')}}" class="btn btn-primary">modify</a>
-        <a href="{{route('delete_user', $user)}}" class="btn btn-danger">delete</a>
+        <a href="{{route('ducks.edit')}}" class="btn btn-primary">modify</a>
     </div>
 
 

@@ -47,11 +47,19 @@ class User extends Authenticatable
     ];
 
     // un duck peut avoir plusieurs quacks ...
-    public function quacks(){
+    public function quacks()
+    {
         return $this->hasMany('App\Quack');
     }
 
-    public function comment(){
-        return$this->hasMany('App\Comment');
+    public function comment()
+    {
+        return $this->hasMany('App\Comment');
+    }
+
+    // un duck appartient à un role
+    public function role()
+    {
+        return $this->belongsTo('App\Role');
     }
 }

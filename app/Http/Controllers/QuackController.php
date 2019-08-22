@@ -10,6 +10,11 @@ use Illuminate\Support\Facades\Auth;
 
 class QuackController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth')->except('show');
+    }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -29,21 +34,21 @@ class QuackController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'message' => 'min:2',
-            'picture' => 'picture|nullable',
+            'message' => 'required|min:2',
+            'picture' => 'nullable',
             'tags' => 'nullable',
         ]);
 
         $user = Auth::user();
-        $quack = new Quack();
 
+        $quack = new Quack();
         $quack->user_id = $user->id;
         $quack->message = $request->input('message');
         $quack->picture = $request->input('picture');
         $quack->tags = $request->input('tags');
         $quack->save();
-        return redirect()->route('home');
 
+        return redirect()->route('home');
     }
 
     /**
@@ -54,11 +59,9 @@ class QuackController extends Controller
      */
     public function show(Quack $quack)
     {
+        $quack->load('user', 'comments.user');
 
-        //$quack = Quack::with('user')->get();
-        $comments = Comment::with('user')->where('quack_id', $quack->id)->orderBy('id','desc')->get();
-        $quack = Quack::with('user','comment')->where('id',$quack->id)->first();
-        return view('quacks.show', compact('quack','comments'));
+        return view('quacks.show', ['quack' => $quack]);
     }
 
     /**
@@ -69,7 +72,6 @@ class QuackController extends Controller
      */
     public function edit(Quack $quack)
     {
-
         return view('quacks.edit', ['quack' => $quack]);
     }
 
@@ -83,7 +85,7 @@ class QuackController extends Controller
     public function update(Request $request, Quack $quack)
     {
         $request->validate([
-            'message' => 'min:2',
+            'message' => 'required|min:2',
             'photo' => 'nullable',
             'tags' => 'nullable',
         ]);
@@ -105,7 +107,10 @@ class QuackController extends Controller
      */
     public function destroy(Quack $quack)
     {
-        $quack->delete();
+        if ($quack->user->id == Auth::user()->id) {
+            $quack->delete();
+        }
+
         return redirect()->route('home')->with('success', 'Quack deleted successfully');
     }
 }

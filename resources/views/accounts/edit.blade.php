@@ -1,5 +1,11 @@
 @extends('layouts.app')
 
+@section('title')
+
+    My account - Setting profile
+
+@endsection
+
 @section('content')
     <div class="container">
         <div class="row justify-content-center">
@@ -18,7 +24,7 @@
                             </div>
                         @endif
 
-                        <form method="POST" action="{{ route('update_user') }}">
+                        <form method="POST" action="{{ route('ducks.update') }}">
                             @csrf
                             @method('PUT')
 
@@ -26,7 +32,7 @@
                                 <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('FirstName') }}</label>
 
                                 <div class="col-md-6">
-                                    <input id="firstname" type="text" class="form-control @error('firstname') is-invalid @enderror" name="firstname" value="{{ old('firstname') }}" required autocomplete="firstname" autofocus>
+                                    <input id="firstname" type="text" class="form-control @error('firstname') is-invalid @enderror" name="firstname" value="{{ old('firstname') }}" placeholder="{{$user->firstname}}" required autocomplete="firstname" autofocus>
 
                                     @error('firstname')
                                     <span class="invalid-feedback" role="alert">
@@ -40,7 +46,7 @@
                                 <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('LastName') }}</label>
 
                                 <div class="col-md-6">
-                                    <input id="lastname" type="text" class="form-control @error('lastname') is-invalid @enderror" name="lastname" value="{{ old('lastname') }}" required autocomplete="lastname" autofocus>
+                                    <input id="lastname" type="text" class="form-control @error('lastname') is-invalid @enderror" name="lastname" value="{{ old('lastname') }}" placeholder="{{$user->lastname}}" required autocomplete="lastname" autofocus>
 
                                     @error('lastname')
                                     <span class="invalid-feedback" role="alert">

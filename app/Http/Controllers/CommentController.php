@@ -3,50 +3,32 @@
 namespace App\Http\Controllers;
 
 use App\Comment;
+use App\Quack;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CommentController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
+     * @param Quack $quack
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, Quack $quack)
     {
         $request->validate([
             'new_comment' => 'required',
-            'quack_id' => '',
-            'user_id' => ''
         ]);
-        $comment = new Comment([
-            'comment' => $request->input('new_comment'),
-            'quack_id' => $request->input('quack_id'),
-            'user_id' => $request->input('user_id')
-        ]);
+        $user = Auth::user();
+
+        $comment = new Comment();
+        $comment->user_id = $user->id;
+        $comment->quack_id = $quack->id;
+        $comment->comment = $request->input('new_comment');
         $comment->save();
-        return back();
+        return redirect()->route('home');
     }
 
     /**
@@ -86,13 +68,17 @@ class CommentController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Comment  $comment
+     * @param \App\Comment $comment
      * @return \Illuminate\Http\Response
+     * @throws \Exception
      */
-    public function destroy(Comment $comment)
+    public function destroy(Quack $quack ,Comment $comment)
     {
-        Comment::where('id', $comment->id)->first()->delete();
+        //$deletedRows = Comment::where('id', $comment->id)->first()->delete();
 
-        return back();
+        if ($comment->user->id == Auth::user()->id) {
+            $comment->delete();
+        }
+        return redirect()->route('home');
     }
 }

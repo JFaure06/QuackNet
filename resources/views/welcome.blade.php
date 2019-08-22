@@ -91,33 +91,43 @@
     </style>
 </head>
 <body>
-<div class="flex-center position-ref full-height">
-    @if (Route::has('login'))
-        <div class="top-right links">
-            @auth
-                <a href="{{ route('home') }}">Home</a>
-            @else
-                <a href="{{ route('login') }}">Login</a>
+<header>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
 
-                @if (Route::has('register'))
-                    <a href="{{ route('register') }}">Register</a>
-                @endif
-            @endauth
-        </div>
-    @endif
+    <a class="navbar-brand" href="{{ url('/') }}">
+        {{ config('Quack', 'Quackbar') }}
+    </a>
+
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="top-right links" id="navbarSupportedContent">
+        <a href="{{ route('login') }}">Login</a>
+
+        @if (Route::has('register'))
+            <a href="{{ route('register') }}">Register</a>
+        @endif
+    </div>
+</nav>
+
+</header>
+
+<div class="flex-center position-ref full-height">
 
     <div class="content">
-        <div class="title m-b-md">
+        <div class="title">
             Welcome to the QuackNet!!
         </div>
 
-        <div class="container">
-            <div class="row">
-                <div class="col-md-6">
-                    <img src="">
+        <div class="container mt-5">
+            <div class="row align-items-center ">
+                <div class="col-md-5">
+                    <img src="https://lh6.ggpht.com/_Tau7JSVWn8NbPIaqwC4lrhS1Pg6a0IVAh_OVBackr1PCDHSY6bt4UQ2Us857SmGqQ8=w300" class="card-img-top" alt="...">
                 </div>
-                <div class="card col-md-6" style="width: 18rem;">
-                    <img src="..." class="card-img-top" alt="...">
+                <div class="col-md-1"></div>
+                <div class="card col-md-5" style="width: 18rem;">
+                    <img src="" class="card-img-top" alt="...">
                     <div class="card-body">
                         <h5 class="card-title"></h5>
                         <p class="card-text">Découvrez ce qui se passe dans le monde en temps réel</p>

@@ -32,8 +32,8 @@ class HomeController extends Controller
 
     public function connected()
     {
-        $quacks = Quack::all();
+        $quacks = Quack::with(['comments.user' , 'user'])->latest()->get();
 
-        return view('home', ['quacks' => $quacks]);
+        return view('home.home', ['quacks' => $quacks]);
     }
 }

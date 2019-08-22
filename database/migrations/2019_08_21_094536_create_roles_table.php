@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateCommentsTable extends Migration
+class CreateRolesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,15 +13,10 @@ class CreateCommentsTable extends Migration
      */
     public function up()
     {
-        Schema::create('comments', function (Blueprint $table) {
+        Schema::create('roles', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->text('comment');
-            $table->unsignedBigInteger('quack_id');
-            $table->unsignedBigInteger('user_id');
+            $table->text('name');
             $table->timestamps();
-
-            $table->foreign('quack_id')->references('id')->on('quacks');
-            $table->foreign('user_id')->references('id')->on('users');
         });
     }
 
@@ -32,6 +27,6 @@ class CreateCommentsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('comments');
+        Schema::dropIfExists('roles');
     }
 }

@@ -1,12 +1,18 @@
 @extends('layouts.app')
 
+@section('title')
+
+   Detail Quack
+
+@endsection
+
 @section('content')
 
     <div class="container">
-
+<!------------------------------------------------------------------------- add a comment ---------------------------------------------------------------------------------------------------->
         @if(Auth::check())
 
-            <form action="{{ route('comments.store') }}" method="POST">
+            <form action="{{ route('comments.store', $quack) }}" method="POST">
                 @csrf
 
                 <textarea id="new_comment" name="new_comment" placeholder="comment!!!!" rows="5"
@@ -15,6 +21,7 @@
                 <input type="hidden" id="user_id" name="user_id" value="{{ Auth::user()->id }}">
                 <button class="btn btn-info align-content-center" type="submit">add comment</button>
             </form>
+<!------------------------------------------------------------------------- display the quack ------------------------------------------------------------------------------------------------>
 
             <div class="row justify-content-center mt-4">
                 <div class="col-md-8">
@@ -34,10 +41,14 @@
                             </div>
                             <div class="card-footer">
                                 <h6>Comments</h6>
-                                @foreach ($comments as $comment)
+<!------------------------------------------------------------------------- display all comments --------------------------------------------------------------------------------------------->
+                                @foreach ($quack->comments as $comment)
+
                                     <div class="card mt-3">
                                         <div class="card-header">
+
                                             @if($comment->user->id == Auth::user()->id || $quack->user->id == Auth::user()->id  )
+
                                                 <form action="{{ route('comments.delete', $quack) }}"
                                                       method="POST">
                                                     @csrf
@@ -47,11 +58,10 @@
                                                     </button>
                                                 </form>
                                             @endif
-                                            <p>
-                                                <a href="{{ route('profile', $quack->user) }}">{{ $comment->user->duckname }}</a>
-                                            <p style="font-size:10px">{{ $comment->created_at }}</p>
-                                            </p>
-
+                                            <div>
+                                                <a href="{{ route('ducks.profile', $quack->user) }}">{{ $comment->user->duckname }}</a>
+                                                <p style="font-size:10px">{{ $comment->created_at }}</p>
+                                            </div>
 
                                         </div>
                                         <div class="card-body">

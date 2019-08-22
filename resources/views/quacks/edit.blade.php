@@ -21,15 +21,26 @@
                     <div class="card-header">{{ Auth::user()->duckname }}</div>
 
                     <div class="card-body">
+                        @if ($errors->any())
+                            <div class="alert alert-danger">
+                                <ul>
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
                         <form method="POST" action="{{ route('quacks.update', $quack) }}">
                             @csrf
                             @method('PUT')
 
                             <div class="form-group row">
-                                <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('Message') }}</label>
+                                <label for="name"
+                                       class="col-md-4 col-form-label text-md-right">{{ __('Message') }}</label>
 
                                 <div class="col-md-6">
-                                    <input type="text" class="form-control @error('message') is-invalid @enderror" name="message" value="{{ old('message') }}" required autocomplete="quack">
+                                    <input type="text" class="form-control @error('message') is-invalid @enderror"
+                                           name="message" value="{{ old('message') }}" required autocomplete="quack">
                                 </div>
                             </div>
 
