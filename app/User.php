@@ -46,13 +46,13 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    // un duck peut avoir plusieurs quacks ...
+
     public function quacks()
     {
         return $this->hasMany('App\Quack');
     }
 
-    public function comment()
+    public function comments()
     {
         return $this->hasMany('App\Comment');
     }

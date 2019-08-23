@@ -30,7 +30,7 @@ class AccountController extends Controller
     {
         $user = Auth::user();
 
-        return view('ducks.edit', ['user' => $user]);
+        return view('accounts.edit', ['user' => $user]);
     }
 
     /**
@@ -45,7 +45,8 @@ class AccountController extends Controller
         $request->validate([
             'firstname' => 'required',
             'lastname' => 'required',
-            'password' => 'required|min:8'
+            'password' => 'required|min:8',
+            'newpassword' => 'required|confirmed|min:8'
         ]);
 
         $user = Auth::user();
@@ -54,10 +55,15 @@ class AccountController extends Controller
 
         if (!Hash::check($request->input('password'), $user->password)) {
             return redirect()->route('ducks.edit')->withErrors(['error password']);
+        } elseif (Hash::check($request->input('newpassword'), $user->password)) {
+            return redirect()->route('ducks.edit')->withErrors(['error identique password']);
         }
+
+
+        $user->password = Hash::make($request->input('newpassword'));
 
         $user->save();
 
-        return redirect()->route('profile');
+        return redirect()->route('ducks.profile');
     }
 }

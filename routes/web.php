@@ -11,7 +11,6 @@
 |
 */
 
-
 // Authentication
 Auth::routes();
 
@@ -24,12 +23,15 @@ Route::get('/users/{user}', 'UserController@show')->name('ducks.show');
 
 // Accounts
 route::get('/accounts/profile', 'AccountController@profile')->name('ducks.profile');
-route::get('/accounts/editprofile','AccountController@edit')->name('ducks.edit');
-route::put('/accounts/updateprofile','AccountController@update')->name('ducks.update');
-route::delete('/accounts/','AccountController@destroy')->name('ducks.delete');
+route::get('/accounts/editprofile', 'AccountController@edit')->name('ducks.edit');
+route::put('/accounts/updateprofile', 'AccountController@update')->name('ducks.update');
+route::delete('/accounts/', 'AccountController@destroy')->name('ducks.delete');
 
+// Search
+Route::get('/quacks/search', 'QuackController@search')->name('search');
 // Quacks
 Route::resource('quacks', 'QuackController')->except('index');
+
 
 // Comments
 route::post('/quacks/{quack}/comments', 'CommentController@store')->name('comments.store');

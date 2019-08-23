@@ -55,9 +55,9 @@
                                     <div class="card mt-3">
                                         <div class="card-header">
 
-                                            @if($comment->user->id == Auth::user()->id || $quack->user->id == Auth::user()->id || Gate::allows('delete-quack', $quack))
+                                            @if($comment->user->id == Auth::user()->id || $quack->user->id == Auth::user()->id)
 
-                                                <form action="{{ route('comments.delete', $quack) }}"
+                                                <form action="{{ route('comments.delete', ['quack' => $quack, 'comment' =>$comment]) }}"
                                                       method="POST">
                                                     @csrf
                                                     @method('DELETE')

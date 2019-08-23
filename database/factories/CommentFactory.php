@@ -7,6 +7,7 @@ use App\Quack;
 use Faker\Generator as Faker;
 
 $factory->define(Comment::class, function (Faker $faker) {
+
     return [
         'comment' => $faker->paragraph,
         'quack_id' => function () {

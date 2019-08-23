@@ -7,7 +7,7 @@ use Faker\Generator as Faker;
 
 $factory->define(Quack::class, function (Faker $faker) {
     return [
-        'tag' => $faker->text(20),
+        'tags' => $faker->text(20),
         'message' => $faker->paragraph
     ];
 });

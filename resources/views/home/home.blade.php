@@ -28,6 +28,9 @@
                                               placeholder="publish something..."
                                               class="form-control form-control-lg"></textarea>
 
+                                    <label for="picture"></label>
+                                    <input type="text" class="form-control" name="picture" id="picture">
+
                                     <label for="file_input"></label>
                                     <input type="file" class="form-control-file" name="picture" id="file_input">
                                     <label for="tags"></label>
@@ -62,28 +65,29 @@
                                             </div>
                                             <p style="font-size:10px">{{ $quack->created_at }}</p>
                                         </div>
-                                        <div class="col-md-2 justify-content-end">
-                                            <a href="{{ route('quacks.edit', $quack) }}" class=""><span
-                                                    class="fa fa-edit"
-                                                    style="font-size:15px"></span></a>
-                                        </div>
+                                        @can('update', $quack)
+                                            <div class="col-md-2 justify-content-end">
+                                                <a href="{{ route('quacks.edit', $quack) }}" class=""><span
+                                                        class="fa fa-edit"
+                                                        style="font-size:15px"></span></a>
+                                            </div>
+                                        @endcan
                                         <div class="col-md-2">
-                                            @if (Gate::allows('delete-quack', $quack)){
-                                            <form action="{{ route('quacks.destroy', $quack) }}" method="POST">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" class="close"><span class="fa fa-trash"
-                                                                                          style="font-size:10px"></span>
-                                                </button>
-                                            </form>
-                                            }
-                                            @endif
+                                            @can('delete', $quack)
+                                                <form action="{{ route('quacks.destroy', $quack) }}" method="POST">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" class="close"><span class="fa fa-trash"
+                                                                                              style="font-size:10px"></span>
+                                                    </button>
+                                                </form>
+                                            @endcan
                                         </div>
                                     </div>
                                 </div>
                                 <div class="card-body">
                                     <p>{{ $quack->message }}</p>
-                                    <img src="{{ $quack->picture }}" alt="watch">
+                                    <img src="{{ $quack->picture }}" alt="duck">
                                     <div>{{ $quack->tags }}</div>
 
                                 </div>

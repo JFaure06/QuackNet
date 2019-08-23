@@ -1,8 +1,11 @@
-@extends ('layout.app')
+@extends ('layouts.app')
 
 @section('title')
+
     My profile page
+
 @endsection
+
 
 @section('content')
 
@@ -28,7 +31,7 @@
                             <div class="card-header">
                                 <div class="row">
                                     <div class="col-md-8">
-                                        <a href="{{ route('ducks.profile', $quack->user_id) }}">
+                                        <a href="{{ route('ducks.show', $quack->user_id) }}">
                                             <strong>{{ $quack->user->duckname }}</strong>
                                         </a>
                                         @if ($quack->created_at != $quack->updated_at)
@@ -46,7 +49,9 @@
                                 <div>{{ $quack->tags }}</div>
                             </div>
                             <div class="card-footer">
-
+                                <a href="{{ route('quacks.show', $quack) }}"><span
+                                        class="far fa-comment-alt"></span>
+                                    comments</a>
                             </div>
 
                         </div>

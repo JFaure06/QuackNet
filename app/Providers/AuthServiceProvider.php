@@ -26,10 +26,5 @@ class AuthServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->registerPolicies();
-
-        Gate::define('update-quack', 'App\Policies\QuackPolicy@update');
-        Gate::define('delete-quack', 'App\Policies\QuackPolicy@delete');
-        Gate::define('user-delete-quack', 'App\Policies\QuackPolicy@user_delete');
-
     }
 }

@@ -7,12 +7,14 @@ use App\Quack;
 use Illuminate\Foundation\Auth\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class QuackController extends Controller
 {
     public function __construct()
     {
         $this->middleware('auth')->except('show');
+        $this->authorizeResource(Quack::class, 'quack');
     }
 
     /**
@@ -81,12 +83,13 @@ class QuackController extends Controller
      * @param \Illuminate\Http\Request $request
      * @param \App\Quack $quack
      * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function update(Request $request, Quack $quack)
     {
         $request->validate([
             'message' => 'required|min:2',
-            'photo' => 'nullable',
+            'picture' => 'nullable',
             'tags' => 'nullable',
         ]);
 
@@ -99,6 +102,30 @@ class QuackController extends Controller
     }
 
     /**
+     * Search the specified resource in storage.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Validation\ValidationException
+     */
+    public function search(Request $request)
+    {
+        $this->validate($request, [
+            'q' => 'required|string'
+        ]);
+
+        $q = $request->input('q');
+
+        $quacks = DB::select("
+                SELECT * FROM quacks
+                JOIN users ON quacks.user_id = users.id
+                WHERE message LIKE '%$q%'
+              ");
+
+        return view('quacks.search', ['quacks' => $quacks]);
+    }
+
+    /**
      * Remove the specified resource from storage.
      *
      * @param \App\Quack $quack
@@ -107,6 +134,8 @@ class QuackController extends Controller
      */
     public function destroy(Quack $quack)
     {
+        //$this->authorize('delete', $quack);
+
         if ($quack->user->id == Auth::user()->id) {
             $quack->delete();
         }

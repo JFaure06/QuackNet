@@ -22,7 +22,7 @@
             <li class="list-group-item">Duckname : {{ Auth::user()->duckname }}</li>
             <li class="list-group-item">Email : {{ Auth::user()->email }}</li>
         </ul>
-        <a href="{{route('ducks.edit')}}" class="btn btn-primary">modify</a>
+        <a href="{{ route('ducks.edit') }}" class="btn btn-primary">modify</a>
     </div>
 
 
